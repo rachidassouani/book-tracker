@@ -7,5 +7,5 @@ spring:
     keyspace-name: booktracker
 
 datadump.location:
-  .author: /home/rachid/downloads/test-authors.txt
-  .works: /home/rachid/downloads/test-works.txt
+  .author: /home/rachid/Downloads/test-authors.txt
+  .works: /home/rachid/Downloads/test-works.txt
