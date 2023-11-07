@@ -144,9 +144,9 @@ public class BooktrackerApplication {
 
 	@PostConstruct
 	public void start() {
-		/*
+		/**/
 		 	initAuthors();
 			initWorks();
-		 */
+
 	}
 }
