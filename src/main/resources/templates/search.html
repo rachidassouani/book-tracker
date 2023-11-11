@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:insert="shared/head :: head"></head>
+
+<body>
+    <head th:insert="shared/navbar :: navbar"></head>
+    <div class="container">
+        <div th:insert="shared/book-search :: search-panel"></div>
+
+        <section class="content">
+            <div class="card-group">
+                <div class="card" style="flex: 0 0 18%; margin: 30px;" th:each="book: ${books}">
+                    <img th:src="${book.cover_i}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${book.title}">Card title</h5>
+                        <a th:href="@{'/books/' + ${book.key}}" class="btn btn-primary">View book</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</body>
+</html>
