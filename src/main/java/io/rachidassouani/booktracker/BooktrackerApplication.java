@@ -4,6 +4,8 @@ import io.rachidassouani.booktracker.author.Author;
 import io.rachidassouani.booktracker.author.AuthorRepository;
 import io.rachidassouani.booktracker.book.Book;
 import io.rachidassouani.booktracker.book.BookRepository;
+import io.rachidassouani.booktracker.user.User;
+import io.rachidassouani.booktracker.user.UserRepository;
 import jakarta.annotation.PostConstruct;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,7 +24,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -37,6 +43,12 @@ public class BooktrackerApplication {
 
 	@Autowired
 	private BookRepository bookRepository;
+
+	@Autowired
+	private UserRepository userRepository;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BooktrackerApplication.class, args);
@@ -142,11 +154,30 @@ public class BooktrackerApplication {
 		}
 	}
 
+	private void initUsers() {
+		List<User> savedUsers = IntStream.range(0, 10)
+				.mapToObj(i -> {
+					User user = new User(
+							"rachid"+i+"@gmail.com",
+							passwordEncoder.encode("password"),
+							"User",
+							"rachid",
+							"rachid",
+							true);
+					// saving user
+					User savedUser = userRepository.save(user);
+					System.out.println("THe user with ID " + savedUser.getEmail() + " saved successfully");
+					return savedUser;
+				})
+				.collect(Collectors.toList());
+	}
+
+
+
 	@PostConstruct
 	public void start() {
-		/**/
-		 	initAuthors();
-			initWorks();
-
+		initAuthors();
+		initWorks();
+		initUsers();
 	}
 }
