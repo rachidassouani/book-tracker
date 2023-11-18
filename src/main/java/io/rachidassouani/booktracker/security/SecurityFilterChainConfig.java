@@ -15,8 +15,8 @@ public class SecurityFilterChainConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth ->  auth
-                        .requestMatchers("/books").hasAuthority("User")
-                        .anyRequest().authenticated())
+                        //.requestMatchers("/books").hasAuthority("User")
+                        .anyRequest().permitAll())
                 .formLogin(form -> {
                     form.loginPage("/login")
                             .usernameParameter("email")
