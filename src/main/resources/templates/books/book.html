@@ -1,7 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<!--
+<div th:insert="shared/head :: head"></div>
+-->
 
-<head th:insert="shared/head :: head"></head>
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+            crossorigin="anonymous"
+    />
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"
+    ></script>
+    <title>Book Tracker</title>
+</head>
+
 
 <body>
 <div class="container">
@@ -20,6 +40,45 @@
                         <p class="card-text" th:text="${book.description}">Book description</p>
                         <p class="card-text">Published Date: <small class="text-muted" th:text="${book.publishedDate}">2020-01-01</small></p>
 
+                        <form th:if="${loggedUser}"
+                              th:action="@{/addUserBook}"
+                              th:object="${userBookRequest}"
+                              method="post">
+                            <div class="mb-3">
+                                <input th:field="*{bookId}" type="hidden">
+                                <input th:field="*{userId}" type="hidden">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="startedDate" class="form-label">Start date</label>
+                                <input th:field="*{startedDate}" id="startedDate" type="date" class="form-control" >
+                            </div>
+                            <div class="mb-3">
+                                <label for="completedDate" class="form-label">Completed date</label>
+                                <input th:field="*{completedDate}" id="completedDate" type="date" class="form-control">
+                            </div>
+                            <div class="mb-3">
+                                <label for="readingStatus" class="form-label">Status</label>
+                                <select th:field="*{readingStatus}" id="readingStatus" name="readingStatus" class="form-select" aria-label="Reading status">
+                                    <option selected value="3">Status</option>
+                                    <option value="0-reading">Currently Reading</option>
+                                    <option value="1-finished">Finished</option>
+                                    <option value="2-dnf">Did Not Finish</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rating</label>
+                                <select th:field="*{rating}" id="rating" name="rating" class="form-select" aria-label="Rating">
+                                    <option selected value="0">Select Rating</option>
+                                    <option value="1">&#9733;</option>
+                                    <option value="2">&#9733;&#9733;</option>
+                                    <option value="3">&#9733;&#9733;&#9733;</option>
+                                    <option value="4">&#9733;&#9733;&#9733;&#9733;</option>
+                                    <option value="5">&#9733;&#9733;&#9733;&#9733;&#9733;</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
                     </div>
                 </div>
             </div>
